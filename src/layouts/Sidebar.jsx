@@ -44,7 +44,7 @@ console.log(items[0].component);
 const Sidebar = () => {
   const [component, setComponent] = useState(items[0].component);
   return (
-    <Sider className="flex flex-col" width="fit-content">
+    <Sider className="flex flex-col h-screen" width="fit-content">
       <Layout className="">
         <Sider collapsed={true} theme="light" className="h-screen">
           {/* <div
