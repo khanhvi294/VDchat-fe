@@ -27,6 +27,7 @@ const ListChat = () => {
   return (
     <div
       id="scrollableDiv"
+      className="flex-1"
       style={{
         overflow: "auto",
         padding: "0 16px",

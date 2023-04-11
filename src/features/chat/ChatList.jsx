@@ -33,9 +33,8 @@ const ChatList = () => {
           Recent
         </Title>
       </div>
-      <div className="flex-1">
-        <ListChat />
-      </div>
+
+      <ListChat />
     </div>
   );
 };
