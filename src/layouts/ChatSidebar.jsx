@@ -7,12 +7,11 @@ const ChatSidebar = () => {
       width="380px"
     >
       <div className="w-20 h-52 bg-slate-500">content</div>
-      {/* 
-          <div className='w-20 h-52 bg-slate-500'>content</div>
-          <div className='w-20 h-52 bg-slate-500'>content</div>
-          <div className='w-20 h-52 bg-slate-500'>content</div>
-          <div className='w-20 h-52 bg-slate-500'>content</div>
-          <div className='w-20 h-52 bg-slate-500'>content</div> */}
+      <div className="w-20 h-52 bg-slate-500">content</div>
+      <div className="w-20 h-52 bg-slate-500">content</div>
+      <div className="w-20 h-52 bg-slate-500">content</div>
+      <div className="w-20 h-52 bg-slate-500">content</div>
+      <div className="w-20 h-52 bg-slate-500">content</div>
     </Sider>
   );
 };
