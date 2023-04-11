@@ -11,7 +11,7 @@ const MainLayout = () => {
     <Layout>
       <Sidebar />
       <Layout>
-        <ChatSidebar />
+        {/* <ChatSidebar /> */}
         <ChatMain />
       </Layout>
     </Layout>
