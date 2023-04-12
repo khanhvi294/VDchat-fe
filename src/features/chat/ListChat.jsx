@@ -30,8 +30,7 @@ const ListChat = () => {
       className="flex-1"
       style={{
         overflow: "auto",
-        padding: "0 16px",
-        border: "1px solid rgba(140, 140, 140, 0.35)",
+        padding: "0 12px",
       }}
     >
       <InfiniteScroll
@@ -51,15 +50,20 @@ const ListChat = () => {
         scrollableTarget="scrollableDiv"
       >
         <List
+          position="left"
           dataSource={data}
           renderItem={(item) => (
-            <List.Item key={item.email}>
+            <List.Item
+              key={item.email}
+              className="!border-b-0 px-2 rounded-lg  hover:bg-slate-200 hover:cursor-pointer"
+              onClick={() => console.log("object", item)}
+            >
               <List.Item.Meta
-                avatar={<Avatar src={item.picture.large} />}
-                title={<a href="https://ant.design">{item.name.last}</a>}
+                avatar={<Avatar size="large" src={item.picture.large} />}
+                title={item.name.last}
                 description={item.email}
+                className="pl-5 font-medium"
               />
-              <div>Content</div>
             </List.Item>
           )}
         />

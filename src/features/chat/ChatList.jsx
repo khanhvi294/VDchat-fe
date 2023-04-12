@@ -14,7 +14,7 @@ const ChatList = () => {
         </Title>
         <Input
           size="large"
-          placeholder="large size"
+          placeholder="Search user"
           prefix={<SearchOutlined />}
         />
         <Space direction="vertical" size={16} className="my-6">
