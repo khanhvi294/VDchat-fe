@@ -94,9 +94,9 @@ const ChatMain = () => {
         <Input
           size="large"
           placeholder="Message"
-          className="rounded-2xl bg-[#e6ebf5] text-black"
+          className="rounded-2xl bg-[#e6ebf5] text-black hover:border-[#a49eed]"
         />
-        <div className="flex justify-around w-20">
+        <div className="flex justify-around w-24">
           <SmileOutlined style={{ fontSize: "22px", color: "#a49eed" }} />
           <FileImageOutlined style={{ fontSize: "22px", color: "#a49eed" }} />
         </div>
