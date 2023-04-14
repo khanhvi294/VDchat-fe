@@ -78,7 +78,8 @@ const Sidebar = () => {
       icon: <LogoutOutlined />,
     },
   ];
-  const [component, setComponent] = useState(items[0].component);
+  const [component, setComponent] = useState(itemsNavbar[0].component);
+
   return (
     <>
       <Sider className="flex flex-col h-screen" width="fit-content">
