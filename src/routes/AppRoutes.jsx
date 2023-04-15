@@ -28,7 +28,7 @@ const router = createBrowserRouter([
         // errorElement: <ErrorPage />,
         children: [
           {
-            path: "/chat",
+            path: "/",
             element: <ChatSidebar />,
           },
         ],
