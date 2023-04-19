@@ -18,6 +18,9 @@ import Group from "../features/group/Group";
 import ChatSidebar from "./ChatSidebar";
 import MenuItem from "antd/es/menu/MenuItem";
 import Meta from "antd/es/card/Meta";
+import { logout } from "../redux/slices/userSlice";
+import { useNavigate } from "react-router-dom/dist";
+import { useDispatch } from "react-redux";
 
 function getItem(label, key, icon, component, children, type) {
   return {
@@ -53,6 +56,8 @@ const items2 = [
 ];
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   //hshs
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -64,18 +69,25 @@ const Sidebar = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  //shs
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
+
   const items = [
     {
-      label: "profile",
+      label: <p onClick={showModal}>Profile</p>,
       key: "1",
-      icon: <UserOutlined onClick={showModal} />,
+      icon: <UserOutlined />,
+      title: "",
     },
     {
-      label: "Logout",
+      label: <p onClick={handleLogout}>Log out</p>,
       key: "2",
       danger: true,
       icon: <LogoutOutlined />,
+      title: "",
     },
   ];
   const [component, setComponent] = useState(itemsNavbar[0].component);
@@ -84,7 +96,12 @@ const Sidebar = () => {
     <>
       <Sider className="flex flex-col h-screen" width="fit-content">
         <Layout>
-          <Sider collapsed={true} theme="light" className="h-screen">
+          <Sider
+            trigger={null}
+            collapsed={true}
+            theme="light"
+            className="h-screen"
+          >
             <div className="flex flex-col justify-between h-full pb-4">
               <div
                 style={{
@@ -107,7 +124,7 @@ const Sidebar = () => {
                   setComponent(itemsNavbar[item.key].component)
                 }
               />
-              <div className="flex justify-center">
+              <div className="flex justify-center hover:cursor-pointer">
                 <Dropdown
                   menu={{
                     items,
@@ -116,7 +133,7 @@ const Sidebar = () => {
                   arrow={{
                     pointAtCenter: true,
                   }}
-                  // trigger={["click"]}
+                  trigger={["click"]}
                   overlayClassName="w-32"
                 >
                   <Avatar />
@@ -136,6 +153,7 @@ const Sidebar = () => {
         onCancel={handleCancel}
         footer={null}
         width="fit-content"
+        className="hover:cusor-pointer"
       >
         <Card
           style={{
@@ -151,7 +169,6 @@ const Sidebar = () => {
           actions={[
             // <SettingOutlined key="setting" />,
             <p>
-              {" "}
               <EditOutlined key="edit" /> chỉnh sửa
             </p>,
             // <EllipsisOutlined key="ellipsis" />,
