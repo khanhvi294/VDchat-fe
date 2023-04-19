@@ -7,7 +7,7 @@ const PublicRoutes = () => {
   const { isLogin } = useSelector((state) => state.user.data);
 
   return isLogin ? <Navigate to={appRoutes.CHAT} /> : <Outlet />;
-  //   return <Outlet />;
+  // return <Outlet />;
 };
 
 export default PublicRoutes;

@@ -11,7 +11,7 @@ const ProtectedPage = lazy(() => import("../routes/ProtectedRoutes"));
 const PublicRoutes = lazy(() => import("../routes/PublicRoutes"));
 
 export const appRoutes = {
-  CHAT: "/chat",
+  CHAT: "/",
   AUTH: "/login",
   AUTH_REDIRECT: "/auth/redirect",
   PAGE_401: "/401",

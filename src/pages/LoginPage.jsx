@@ -2,6 +2,7 @@ import React from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import { Button, Space, Tooltip } from "antd";
 import { Link, useNavigate } from "react-router-dom";
+import SocialLogin from "../features/auth/SocialLogin";
 const LoginPage = () => {
   const navigate = useNavigate();
   const handleLoginGoogle = () => {
@@ -12,15 +13,14 @@ const LoginPage = () => {
     window.open("http://localhost:5000/auth/facebook");
   };
   return (
-    <div>
-      <Button
+    <div className="flex justify-center h-screen items-center bg-gray-100">
+      <SocialLogin />
+      {/* <Button
         type="primary"
         className="bg-red-300 mr-5"
         icon={<SearchOutlined />}
-        // onClick={() => handleLoginGoogle()}
+        onClick={() => handleLoginGoogle()}
       >
-        {/* Google login */}
-        <Link to={`http://localhost:5000/auth/google`}>google</Link>
       </Button>
       <Button
         type="primary"
@@ -29,7 +29,7 @@ const LoginPage = () => {
         onClick={() => handleLoginFacebook()}
       >
         Facebook login
-      </Button>
+      </Button> */}
     </div>
   );
 };
