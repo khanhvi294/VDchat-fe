@@ -21,8 +21,10 @@ const RedirectPage = () => {
 
   useEffect(() => {
     const token = searchParams.get("accessToken");
-    if (!token) return;
-    dispatch(setAccessToken(token));
+    // if (!token) return;
+    if (token) {
+      dispatch(setAccessToken(token));
+    }
     navigate("/");
   }, [dispatch, navigate, searchParams]);
 
