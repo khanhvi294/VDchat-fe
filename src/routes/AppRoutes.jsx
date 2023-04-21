@@ -29,6 +29,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "/",
+            exact: true,
             element: <ChatSidebar />,
           },
         ],
