@@ -1,7 +1,7 @@
 import React from "react";
 
-const Group = () => {
+const GroupList = () => {
   return <div>Group</div>;
 };
 
-export default Group;
+export default GroupList;
