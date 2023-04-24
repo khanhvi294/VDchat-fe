@@ -1,5 +1,5 @@
 import { axiosClientPrivate } from "./axiosClient";
-const url = "/user";
+const url = "/users";
 const userApi = {
   getUserInfo: () => {
     return axiosClientPrivate.get(url + "/info");
