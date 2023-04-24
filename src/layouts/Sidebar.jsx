@@ -16,17 +16,17 @@ import { logout } from "../redux/slices/userSlice";
 
 const itemsNavbar = [
   {
-    title: "Option 1",
+    title: "Chat",
     icon: <MessageOutlined />,
     path: "/",
   },
   {
-    title: "Option 2",
+    title: "Groups",
     icon: <UsergroupAddOutlined />,
     path: "/groups",
   },
   {
-    title: "Option 3",
+    title: "Contacts",
     icon: <ContactsOutlined />,
     path: "/contacts",
   },
