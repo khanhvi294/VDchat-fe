@@ -1,53 +1,35 @@
 import {
   ContactsOutlined,
-  EditOutlined,
   LogoutOutlined,
   MessageOutlined,
-  TeamOutlined,
   UserOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
-import { Avatar, Card, Dropdown, Layout, Menu, Modal } from "antd";
-import Meta from "antd/es/card/Meta";
+import { Avatar, Dropdown, Menu, Tooltip } from "antd";
 import Sider from "antd/es/layout/Sider";
-import { useState } from "react";
+import MenuItem from "antd/es/menu/MenuItem";
+import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom/dist";
+import { NavLink, useLocation, useNavigate } from "react-router-dom/dist";
+import ProfileForm from "../features/profile/ProfileForm";
 import { logout } from "../redux/slices/userSlice";
 
-function getItem(label, key, icon, component, children, type) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-    component,
-  };
-}
 const itemsNavbar = [
-  getItem(
-    "Option 1",
-    "0",
-    <NavLink to="/">
-      <MessageOutlined />
-    </NavLink>
-  ),
-  getItem(
-    "Option 1",
-    "1",
-    <NavLink to="/groups">
-      {" "}
-      <TeamOutlined />
-    </NavLink>
-  ),
-
-  getItem(
-    "Option 2",
-    "2",
-    <NavLink to="/contacts">
-      <ContactsOutlined />
-    </NavLink>
-  ),
+  {
+    title: "Option 1",
+    icon: <MessageOutlined />,
+    path: "/",
+  },
+  {
+    title: "Option 2",
+    icon: <UsergroupAddOutlined />,
+    path: "/groups",
+  },
+  {
+    title: "Option 3",
+    icon: <ContactsOutlined />,
+    path: "/contacts",
+  },
 ];
 
 const Sidebar = () => {
@@ -55,13 +37,12 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const [keySelected, setKeySelected] = useState("0");
   const { pathname } = useLocation();
-  //hshs
+  useMemo(() => {
+    setKeySelected(pathname);
+  }, [pathname]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -72,7 +53,7 @@ const Sidebar = () => {
     navigate("/login");
   };
 
-  const items = [
+  const dropdownItems = [
     {
       label: <p onClick={showModal}>Profile</p>,
       key: "1",
@@ -90,88 +71,52 @@ const Sidebar = () => {
 
   return (
     <>
-      <Sider className="flex flex-col h-screen" width="fit-content">
-        <Layout>
-          <Sider
-            trigger={null}
-            collapsed={true}
-            theme="light"
-            className="h-screen"
-          >
-            <div className="flex flex-col justify-between h-full pb-4">
-              <div
-                style={{
-                  height: 32,
-                  margin: 16,
-                  background: "rgba(255, 255, 255, 0.2)",
-                }}
-              >
-                <img
-                  src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
-                  width={28}
-                  className="m-auto"
-                />
-              </div>
-              <Menu
-                selectedKeys={[keySelected]}
-                // selectedKeys={["2"]}
-                mode="inline"
-                items={itemsNavbar}
-              />
-              <div className="flex justify-center hover:cursor-pointer">
-                <Dropdown
-                  menu={{
-                    items,
-                  }}
-                  placement="topLeft"
-                  arrow={{
-                    pointAtCenter: true,
-                  }}
-                  trigger={["click"]}
-                  overlayClassName="w-32"
-                >
-                  <Avatar />
-                </Dropdown>
-              </div>
-            </div>
-          </Sider>
-        </Layout>
-      </Sider>
-
-      <Modal
-        // title="Basic Modal"
-        open={isModalOpen}
-        // onOk={handleOk}
-        onCancel={handleCancel}
-        footer={null}
+      <Sider
+        className="flex flex-col h-screen"
+        theme="light"
         width="fit-content"
-        className="hover:cusor-pointer"
       >
-        <Card
-          style={{
-            width: 334,
-          }}
-          cover={
+        <div className="flex flex-col justify-between h-full pb-4">
+          <div
+            style={{
+              height: 32,
+              margin: 16,
+              background: "rgba(255, 255, 255, 0.2)",
+            }}
+          >
             <img
-              className="w-fit"
-              alt="example"
-              src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+              src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
+              width={28}
+              className="m-auto"
             />
-          }
-          actions={[
-            // <SettingOutlined key="setting" />,
-            <p>
-              <EditOutlined key="edit" /> chỉnh sửa
-            </p>,
-            // <EllipsisOutlined key="ellipsis" />,
-          ]}
-        >
-          <Meta
-            title={<p className="text-xl">Khánh Vi</p>}
-            description="Khanhci294@gmail.com"
-          />
-        </Card>
-      </Modal>
+          </div>
+          <Menu selectedKeys={[keySelected]}>
+            {itemsNavbar.map((item) => (
+              <MenuItem key={item.path} icon={item.icon}>
+                <Tooltip title={item.title} placement="right">
+                  <NavLink to={item.path} />
+                </Tooltip>
+              </MenuItem>
+            ))}
+          </Menu>
+          <div className="flex justify-center hover:cursor-pointer">
+            <Dropdown
+              menu={{
+                items: dropdownItems,
+              }}
+              placement="topLeft"
+              arrow={{
+                pointAtCenter: true,
+              }}
+              trigger={["click"]}
+              overlayClassName="w-32"
+            >
+              <Avatar />
+            </Dropdown>
+          </div>
+        </div>
+      </Sider>
+      <ProfileForm isModalOpen={isModalOpen} handleCancel={handleCancel} />
     </>
   );
 };
