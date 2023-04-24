@@ -23,10 +23,10 @@ const MainLayout = () => {
   return (
     <Layout>
       <Sidebar />
-      <Layout>
-        {/* <ChatSidebar /> */}
-        <ChatMain />
-      </Layout>
+      <ChatSidebar>
+        <Outlet />
+      </ChatSidebar>
+      <ChatMain />
     </Layout>
   );
 };

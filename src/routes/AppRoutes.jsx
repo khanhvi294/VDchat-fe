@@ -1,7 +1,9 @@
-import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
+import { createBrowserRouter } from "react-router-dom";
+import ChatList from "../features/chat/ChatList";
+import Contact from "../features/contact/Contact";
 import MainLayout from "../layouts/MainLayout";
-import ChatSidebar from "../layouts/ChatSidebar";
+import GroupList from "../features/group/GroupList";
 const Page401 = lazy(() => import("../pages/Page401"));
 const LoginPage = lazy(() => import("../pages/LoginPage"));
 const Page404 = lazy(() => import("../pages/Page404"));
@@ -30,7 +32,17 @@ const router = createBrowserRouter([
           {
             path: "/",
             exact: true,
-            element: <ChatSidebar />,
+            element: <ChatList />,
+          },
+          {
+            path: "/groups",
+            exact: true,
+            element: <GroupList />,
+          },
+          {
+            path: "/contacts",
+            excat: true,
+            element: <Contact />,
           },
         ],
       },
