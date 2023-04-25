@@ -11,10 +11,12 @@ const SocketClient = () => {
     const socket = io(import.meta.env.VITE_REACT_APP_SERVER_URL);
     dispatch(setSocket(socket));
 
+    socket.emit("join", user?._id);
+
     return () => {
       socket.close();
     };
-  }, [user?.id]);
+  }, [user?._id]);
 
   return <></>;
 };

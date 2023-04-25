@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom/dist";
 import ProfileForm from "../features/profile/ProfileForm";
 import { logout } from "../redux/slices/userSlice";
+import { appRoutes } from "../routes/AppRoutes";
 
 const itemsNavbar = [
   {
@@ -50,7 +51,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/login");
+    navigate(appRoutes.AUTH);
   };
 
   const dropdownItems = [
