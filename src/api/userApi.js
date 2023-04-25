@@ -4,6 +4,10 @@ const userApi = {
   getUserInfo: () => {
     return axiosClientPrivate.get(url + "/info");
   },
+  updateInfo: (data) => {
+    console.log(data);
+    return axiosClientPrivate.patch(url + "/update", data);
+  },
 };
 
-export const { getUserInfo } = userApi;
+export const { getUserInfo, updateInfo } = userApi;
