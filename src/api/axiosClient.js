@@ -35,7 +35,9 @@ axiosClientPrivate.interceptors.request.use(
       // store.dispatch(setIsCallLogin(true));
     } else {
       const decodeToken = jwt_decode(accessToken);
+
       const today = new Date();
+
       if (decodeToken.exp < today.getTime() / 1000) {
         store.dispatch(logout());
         window.location.href = appRoutes.AUTH;
@@ -54,6 +56,11 @@ axiosClientPrivate.interceptors.response.use(
     return response?.data;
   },
   function (error) {
+    let errToken = error.response.data?.errToken;
+    if (errToken) {
+      store.dispatch(logout());
+      window.location.href = appRoutes.AUTH;
+    }
     if (error.code === "ERR_NETWORK") {
       // window.location.href = '/404';
     }
