@@ -36,6 +36,12 @@ const router = createBrowserRouter([
             element: <ChatList />,
           },
           {
+            path: "/chat",
+            exact: true,
+            element: <ChatList />,
+          },
+
+          {
             path: appRoutes.CONVERSATION,
             exact: true,
             element: <ChatList />,

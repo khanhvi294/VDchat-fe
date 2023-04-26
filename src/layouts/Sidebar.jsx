@@ -117,7 +117,9 @@ const Sidebar = () => {
           </div>
         </div>
       </Sider>
-      <ProfileForm isModalOpen={isModalOpen} handleCancel={handleCancel} />
+      {isModalOpen && (
+        <ProfileForm isModalOpen={isModalOpen} handleCancel={handleCancel} />
+      )}
     </>
   );
 };
