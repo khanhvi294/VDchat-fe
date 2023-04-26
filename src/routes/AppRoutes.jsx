@@ -17,6 +17,7 @@ export const appRoutes = {
   AUTH: "/login",
   AUTH_REDIRECT: "/auth/redirect",
   PAGE_401: "/401",
+  CONVERSATION: "/chat/:conversationId",
 };
 
 const publicRoutes = [];
@@ -31,6 +32,17 @@ const router = createBrowserRouter([
         children: [
           {
             path: "/",
+            exact: true,
+            element: <ChatList />,
+          },
+          {
+            path: "/chat",
+            exact: true,
+            element: <ChatList />,
+          },
+
+          {
+            path: appRoutes.CONVERSATION,
             exact: true,
             element: <ChatList />,
           },

@@ -5,23 +5,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "./api/userApi";
 import { updateUserInfo } from "./redux/slices/userSlice";
+import SocketClient from "./socket-client/SocketClient";
 
 function App() {
   const { isLogin } = useSelector((state) => state.user.data);
   const dispatch = useDispatch();
-  console.log("isLogin", isLogin);
+  // console.log("isLogin", isLogin);
   useQuery({
     queryKey: ["user"],
     queryFn: getUserInfo,
     enabled: isLogin,
     onSuccess: (data) => {
-      console.log("user info data", data);
+      // console.log("user info data", data);
       dispatch(updateUserInfo(data.data));
     },
   });
 
   return (
     <>
+      {isLogin && <SocketClient />}
       <Suspense fallback={<h3>loading...</h3>}>
         <RouterProvider router={router} />
       </Suspense>

@@ -5,8 +5,21 @@ import Sidebar from "./Sidebar";
 import StickyBox from "react-sticky-box";
 import ChatSidebar from "./ChatSidebar";
 import Sider from "antd/es/layout/Sider";
+// import socket from "../configs/socketClient";
+import { useEffect } from "react";
 
 const MainLayout = () => {
+  // useEffect(() => {
+  //   socket.emit("join", "memay");
+  //   console.log("fsdflsdkj");
+  //   socket.on("connect", () => {
+  //     console.log("sockett ", socket.id); // true
+  //   });
+  //   socket.emit("hahah", "dcm");
+  //   socket.on("hello", (data) => {
+  //     console.log("fsdfsdf ", data);
+  //   });
+  // }, []);
   return (
     <Layout>
       <Sidebar />
@@ -15,23 +28,6 @@ const MainLayout = () => {
       </ChatSidebar>
       <ChatMain />
     </Layout>
-
-    // <Layout>
-    //   {/* <div style={{ display: "flex", alignItems: "flex-start" }}> */}
-    //   {/* <StickyBox> */}
-    //   <div className="">
-    //     <Sidebar />
-    //     {/* <ChatSidebar /> */}
-    //   </div>
-    //   {/* </StickyBox> */}
-    //   {/* </div> */}
-    //   {/* <Layout> */}
-    //   {/*ml-20  <Outlet /> */}
-    //   {/* <div className="flex-1"> */}
-    //   <ChatMain />
-    //   {/* </div> */}
-    //   {/* </Layout> */}
-    // </Layout>
   );
 };
 

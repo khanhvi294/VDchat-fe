@@ -2,7 +2,7 @@ import { Header } from "antd/es/layout/layout";
 import { Avatar, Badge, Input, Space, Typography } from "antd";
 import React from "react";
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
-import ListChat from "./ListChat";
+import UsersList from "./UsersList";
 
 const { Title } = Typography;
 const ChatList = () => {
@@ -34,7 +34,7 @@ const ChatList = () => {
         </Title>
       </div>
 
-      <ListChat />
+      <UsersList />
     </div>
   );
 };
