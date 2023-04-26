@@ -7,13 +7,13 @@ import {
   SmileOutlined,
 } from "@ant-design/icons";
 import { useMutation } from "@tanstack/react-query";
-import { Avatar, Badge, Dropdown, Input, Layout, Modal, message } from "antd";
+import { Avatar, Badge, Dropdown, Input, Layout, Modal } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import { useState } from "react";
-import { blockUser } from "../api/userApi";
+import { blockUser, unblockUser } from "../api/userApi";
 
 const ChatMain = () => {
-  const items = [
+  const [items, setItems] = useState([
     {
       key: "block",
       label: "block",
@@ -24,13 +24,40 @@ const ChatMain = () => {
       label: "delete",
       icon: <DeleteOutlined />,
     },
-  ];
+  ]);
+  const keyItems = ["block", "unblock", "delete"];
+
   const blockMutation = useMutation({
     mutationFn: blockUser,
+    onSuccess: () => {
+      setItems((prev) => [
+        {
+          key: "unblock",
+          label: "unblock",
+          icon: <DeleteOutlined />,
+        },
+        prev[1],
+      ]);
+    },
+  });
+  const unblockMutation = useMutation({
+    mutationFn: unblockUser,
+    onSuccess: () => {
+      setItems((prev) => [
+        {
+          key: "block",
+          label: "block",
+          icon: <DeleteOutlined />,
+        },
+        prev[1],
+      ]);
+    },
   });
   const onClick = ({ key }) => {
-    if (key === items[0].key) {
+    if (key === keyItems[0]) {
       showModal();
+    } else if (key === keyItems[1]) {
+      unblockMutation.mutate("64370996f2307906f689d961");
     }
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
