@@ -10,6 +10,9 @@ const userApi = {
   blockUser: (userId) => {
     return axiosClientPrivate.patch(url + `/block/${userId}`);
   },
+  unblockUser: (userId) => {
+    return axiosClientPrivate.patch(url + `/unblock/${userId}`);
+  },
 };
 
-export const { getUserInfo, updateInfo, blockUser } = userApi;
+export const { getUserInfo, updateInfo, blockUser, unblockUser } = userApi;
