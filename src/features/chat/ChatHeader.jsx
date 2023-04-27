@@ -26,8 +26,6 @@ const ChatHeader = () => {
     },
   ]);
   const keyItems = ["block", "unblock", "delete"];
-  const userId = useSelector((state) => state.user.data.info?._id);
-  const { conversationId } = useParams();
 
   const blockMutation = useMutation({
     mutationFn: blockUser,

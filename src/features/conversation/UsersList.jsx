@@ -1,19 +1,17 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Avatar, Button, Divider, List, Skeleton, Typography } from "antd";
-
-const { Text } = Typography;
+import { Avatar, Divider, List, Skeleton, Typography } from "antd";
+import formatDistanceStrict from "date-fns/formatDistanceStrict";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getConversations } from "../../api/conversationApi";
-import formatDistance from "date-fns/formatDistance";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import { formatRelative } from "date-fns";
-import formatDistanceStrict from "date-fns/formatDistanceStrict";
 
-const PAGE_SIZE = 5;
+const { Text } = Typography;
+
+const PAGE_SIZE = 9;
 
 const UsersList = () => {
   const [dataLoad, setDataLoad] = useState([]);
+  console.log(dataLoad);
   const {
     data: dataConversations,
     error,
@@ -25,6 +23,7 @@ const UsersList = () => {
   } = useInfiniteQuery({
     queryKey: ["conversations"],
     queryFn: ({ pageParam }) => {
+      console.log("object");
       return getConversations({ page: pageParam, limit: PAGE_SIZE });
     },
     getNextPageParam: (lastPage, pages) => {
@@ -34,6 +33,7 @@ const UsersList = () => {
       return undefined;
     },
   });
+  console.log("conv", dataConversations);
   useEffect(() => {
     if (dataConversations?.pages?.length) {
       setDataLoad([
