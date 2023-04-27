@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Avatar } from "antd";
 import { Content } from "antd/es/layout/layout";
@@ -6,6 +6,7 @@ import { getMessages } from "../../api/messageApi";
 import { useSelector } from "react-redux";
 
 const ChatBody = ({ conversationId }) => {
+  const messagesEndRef = useRef(null);
   const PAGE_SIZE = 5;
   const userId = useSelector((state) => state.user.data.info?._id);
   const {
@@ -25,25 +26,34 @@ const ChatBody = ({ conversationId }) => {
       return lastPage.nextCursor;
     },
   });
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [dataMessages]);
+
   return (
-    <Content className="overflow-y-auto overflow-hidden mx-6 pt-3">
+    <Content className="overflow-y-auto overflow-hidden mx-6 pt-3 pr-5 mb-3">
       {dataMessages?.pages[0]?.data &&
         dataMessages?.pages[0]?.data?.map((message, index) => (
           <div key={message._id}>
             {message?.senderId?._id === userId ? (
               <>
                 <div
-                  className="flex justify-end hover:cursor-pointer mt-2 flex-1"
+                  className="flex justify-end  mt-0.5 flex-1"
                   onClick={() => alert("sdfsdf")}
                 >
-                  <div className=" rounded-3xl bg-[#e6ebf5] w-fit px-4 py-1 break-all max-w-[55%]">
+                  <div className=" rounded-xl bg-[#e6ebf5] w-fit px-4 py-1 break-all max-w-[55%]">
                     {message.content}
                   </div>
                 </div>
               </>
             ) : (
               <>
-                <div className="flex items-end mt-1">
+                <div className="flex items-end">
                   {index != dataMessages?.pages[0]?.data.length - 1 ? (
                     <>
                       {dataMessages?.pages[0]?.data[index + 1].senderId._id ===
@@ -66,7 +76,7 @@ const ChatBody = ({ conversationId }) => {
                               ._id === userId &&
                             message.senderId.username}
                         </p>
-                        <p className="w-fit px-4 py-1 bg-[#a49eed] rounded-3xl break-all max-w-[55%]">
+                        <p className="w-fit px-4 py-1 bg-[#a49eed] rounded-xl break-all max-w-[55%]">
                           {message.content}
                         </p>
                       </div>
@@ -87,7 +97,7 @@ const ChatBody = ({ conversationId }) => {
                           </p>
                         )}
 
-                        <p className="w-fit px-4 py-1 bg-[#a49eed] rounded-3xl break-all max-w-[55%]">
+                        <p className="w-fit px-4 py-1 bg-[#a49eed] rounded-xl break-all max-w-[55%]">
                           {message.content}
                         </p>
                       </div>
@@ -132,6 +142,8 @@ const ChatBody = ({ conversationId }) => {
       </div>
     </div>
   </div> */}
+
+      <div ref={messagesEndRef} />
     </Content>
   );
 };
