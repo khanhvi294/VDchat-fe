@@ -1,36 +1,22 @@
-import { Avatar, Divider, List, Skeleton } from "antd";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { Avatar, Button, Divider, List, Skeleton, Typography } from "antd";
+
+const { Text } = Typography;
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { getConversations } from "../../api/conversationApi";
+import formatDistance from "date-fns/formatDistance";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { formatRelative } from "date-fns";
+import formatDistanceStrict from "date-fns/formatDistanceStrict";
 
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 5;
 
 const UsersList = () => {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
-  const loadMoreData = () => {
-    if (loading) {
-      return;
-    }
-    setLoading(true);
-    fetch(
-      "https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo"
-    )
-      .then((res) => res.json())
-      .then((body) => {
-        setData([...data, ...body.results]);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  };
-  useEffect(() => {
-    loadMoreData();
-  }, []);
-  // console.log("data sample", data.length);
-
+  const [dataLoad, setDataLoad] = useState([]);
+  console.log(dataLoad);
+  let date = new Date();
+  console.log(date);
   const {
     data: dataConversations,
     error,
@@ -41,17 +27,25 @@ const UsersList = () => {
     status,
   } = useInfiniteQuery({
     queryKey: ["conversations"],
-    queryFn: ({ pageParam = 4 }) => {
-      // console.log("bfg,bfg ", pageParam);
+    queryFn: ({ pageParam }) => {
       return getConversations({ page: pageParam, limit: PAGE_SIZE });
     },
     getNextPageParam: (lastPage, pages) => {
-      // console.log("fbf", lastPage.last, pages);
-      return lastPage.nextCursor;
+      if (lastPage.hasNextPage) {
+        return +lastPage.nextPage;
+      }
+      return undefined;
     },
   });
-
-  // console.log("data conversation ", hasNextPage, dataConversations);
+  useEffect(() => {
+    if (dataConversations?.pages?.length) {
+      setDataLoad([
+        ...dataLoad,
+        ...dataConversations?.pages[dataConversations?.pages?.length - 1]
+          .content,
+      ]);
+    }
+  }, [dataConversations]);
   return (
     <div
       id="scrollableDiv"
@@ -59,16 +53,12 @@ const UsersList = () => {
       style={{
         overflow: "auto",
         padding: "0 12px",
-        // height: "40px",
       }}
     >
       <InfiniteScroll
-        dataLength={50}
-        hasMore={false}
+        dataLength={dataConversations?.pages[0]?.total - 1}
         next={fetchNextPage}
-        // dataLength={data.length}
-        // next={loadMoreData}
-        // hasMore={data.length < 50}
+        hasMore={dataLoad.length < dataConversations?.pages[0]?.total}
         loader={
           <Skeleton
             avatar
@@ -81,27 +71,35 @@ const UsersList = () => {
         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
         scrollableTarget="scrollableDiv"
       >
-        {dataConversations && (
-          <List
-            position="left"
-            dataSource={dataConversations.pages[0].content}
-            renderItem={(item) => (
-              <div>{item?.name}</div>
-              // <List.Item
-              //   key={item.email}
-              //   className="!border-b-0 px-2 rounded-lg  hover:bg-slate-200 hover:cursor-pointer"
-              //   onClick={() => console.log("object", item)}
-              // >
-              //   <List.Item.Meta
-              //     avatar={<Avatar size="large" src={item.picture.large} />}
-              //     title={item.name.last}
-              //     description={item.email}
-              //     className="pl-5 font-medium"
-              //   />
-              // </List.Item>
-            )}
-          />
-        )}
+        <List
+          position="left"
+          dataSource={dataLoad}
+          renderItem={(item) => (
+            <List.Item
+              key={item?.name}
+              className="!border-b-0 !px-2 rounded-lg  hover:bg-slate-200 hover:cursor-pointer"
+              onClick={() => console.log("object", item)}
+            >
+              <List.Item.Meta
+                avatar={<Avatar size="large" src="" />}
+                title={item?.name}
+                description={<Text ellipsis>{item?.lastMessage?.content}</Text>}
+                className="font-medium"
+              />
+
+              <div>
+                {formatDistanceStrict(
+                  new Date(item?.lastMessage?.createdAt),
+                  new Date()
+                )}
+                {/* {formatDistanceToNow(new Date(item?.lastMessage?.createdAt), {
+                  addSuffix: true,
+                })} */}
+              </div>
+            </List.Item>
+          )}
+        />
+        {/* )} */}
       </InfiniteScroll>
     </div>
   );
