@@ -14,9 +14,6 @@ const PAGE_SIZE = 5;
 
 const UsersList = () => {
   const [dataLoad, setDataLoad] = useState([]);
-  console.log(dataLoad);
-  let date = new Date();
-  console.log(date);
   const {
     data: dataConversations,
     error,

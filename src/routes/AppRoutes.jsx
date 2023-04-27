@@ -1,6 +1,6 @@
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import ChatList from "../features/chat/ChatList";
+import ChatList from "../features/conversation/ChatList";
 import Contact from "../features/contact/Contact";
 import MainLayout from "../layouts/MainLayout";
 import GroupList from "../features/group/GroupList";
