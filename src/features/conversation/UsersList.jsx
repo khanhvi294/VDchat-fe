@@ -36,11 +36,11 @@ const UsersList = () => {
   console.log("conv", dataConversations);
   useEffect(() => {
     if (dataConversations?.pages?.length) {
-      setDataLoad([
-        ...dataLoad,
-        ...dataConversations?.pages[dataConversations?.pages?.length - 1]
-          .content,
-      ]);
+      const result = dataConversations?.pages.reduce(
+        (acc, page) => acc.concat(page.content),
+        []
+      );
+      setDataLoad(result);
     }
   }, [dataConversations]);
   return (
@@ -53,9 +53,13 @@ const UsersList = () => {
       }}
     >
       <InfiniteScroll
-        dataLength={dataConversations?.pages[0]?.total - 1}
+        dataLength={
+          dataConversations?.pages[0]?.total
+            ? dataConversations?.pages[0]?.total
+            : 0
+        }
         next={fetchNextPage}
-        hasMore={dataLoad.length < dataConversations?.pages[0]?.total}
+        hasMore={dataLoad?.length < dataConversations?.pages[0]?.total}
         loader={
           <Skeleton
             avatar
@@ -68,6 +72,7 @@ const UsersList = () => {
         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
         scrollableTarget="scrollableDiv"
       >
+        {console.log(dataLoad?.length, dataConversations?.pages[0]?.total)}
         <List
           position="left"
           dataSource={dataLoad}
