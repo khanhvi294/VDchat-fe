@@ -2,8 +2,12 @@ import React from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Avatar } from "antd";
 import { Content } from "antd/es/layout/layout";
+import { getMessages } from "../../api/messageApi";
+import { useSelector } from "react-redux";
 
-const ChatBody = () => {
+const ChatBody = ({ conversationId }) => {
+  const PAGE_SIZE = 5;
+  const userId = useSelector((state) => state.user.data.info?._id);
   const {
     data: dataMessages,
     error,

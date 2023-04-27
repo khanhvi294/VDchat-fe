@@ -21,14 +21,14 @@ import ChatHeader from "../features/chat/ChatHeader";
 import ChatBody from "../features/chat/ChatBody";
 import ChatFooter from "../features/chat/ChatFooter";
 
-const PAGE_SIZE = 5;
-
 const ChatMain = () => {
+  const { conversationId } = useParams();
+
   return (
     <>
       <Layout className="bg-white h-screen">
         <ChatHeader />
-        <ChatBody />
+        <ChatBody conversationId={conversationId} />
         <ChatFooter />
       </Layout>
     </>
