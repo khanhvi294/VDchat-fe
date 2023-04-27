@@ -55,8 +55,6 @@ const ChatMain = () => {
     },
   });
 
-  console.log("fsdfsdf", dataMessages);
-
   const blockMutation = useMutation({
     mutationFn: blockUser,
     onSuccess: () => {
