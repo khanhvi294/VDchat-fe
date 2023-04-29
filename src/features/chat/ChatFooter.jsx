@@ -21,6 +21,8 @@ const ChatFooter = ({ conversationId }) => {
   const [displayEmoji, setDisplayEmoji] = useState(false);
   const [cursorPosition, setCursorPosition] = useState(0);
   const inputElement = useRef();
+  const emojiPickerRef = useRef();
+  console.log(inputChat);
   const pickerEmoji = (emoji) => {
     inputElement.current.input.focus();
     let message =
@@ -30,6 +32,22 @@ const ChatFooter = ({ conversationId }) => {
     setInputChat(message);
     setCursorPosition(inputElement.current.input.selectionStart + emoji.length);
   };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(event.target)
+      ) {
+        setDisplayEmoji(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [emojiPickerRef]);
 
   useEffect(() => {
     inputElement.current.input.selectionEnd = cursorPosition;
@@ -118,6 +136,7 @@ const ChatFooter = ({ conversationId }) => {
             bordered={false}
             placeholder="Message"
             className="rounded-b-xl bg-[#e6ebf5] hover:bg-[#e6ebf5] focus:bg-[#e6ebf5] text-black "
+            value={inputChat}
             onChange={(e) => {
               setInputChat(e.target.value);
             }}
@@ -134,7 +153,7 @@ const ChatFooter = ({ conversationId }) => {
             }}
           />
           <div className="flex justify-around mx-3 gap-3">
-            <div className="relative">
+            <div className="relative" ref={emojiPickerRef}>
               <div
                 onClick={() => {
                   inputElement.current.input.focus();
