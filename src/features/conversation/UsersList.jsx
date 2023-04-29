@@ -33,7 +33,6 @@ const UsersList = () => {
       return undefined;
     },
   });
-  console.log("conv", dataConversations);
   useEffect(() => {
     if (dataConversations?.pages?.length) {
       const result = dataConversations?.pages.reduce(

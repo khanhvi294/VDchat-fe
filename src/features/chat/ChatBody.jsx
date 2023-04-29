@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { Avatar } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { getMessages } from "../../api/messageApi";
@@ -9,6 +9,7 @@ const ChatBody = ({ conversationId }) => {
   const messagesEndRef = useRef(null);
   const PAGE_SIZE = 5;
   const userId = useSelector((state) => state.user.data.info?._id);
+  const queryClient = useQueryClient();
   const {
     data: dataMessages,
     error,
@@ -27,6 +28,9 @@ const ChatBody = ({ conversationId }) => {
     },
   });
 
+  queryClient.setQueryData(["messages"], (oldData) => {
+    // return [...oldData, newData]
+  });
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
