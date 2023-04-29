@@ -29,7 +29,7 @@ const ChatMain = () => {
       <Layout className="bg-white h-screen">
         <ChatHeader />
         <ChatBody conversationId={conversationId} />
-        <ChatFooter />
+        <ChatFooter conversationId={conversationId} />
       </Layout>
     </>
   );

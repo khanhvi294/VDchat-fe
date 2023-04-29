@@ -6,6 +6,7 @@ const messageApi = {
     const paramsString = generateParamsString({ page, limit });
     return axiosClientPrivate.get(`${url}/${conversationId}?${paramsString}`);
   },
+  createMessage: (data) => axiosClientPrivate.post(url, data),
 };
 
-export const { getMessages } = messageApi;
+export const { getMessages, createMessage } = messageApi;

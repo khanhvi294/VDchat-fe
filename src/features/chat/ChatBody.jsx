@@ -1,5 +1,5 @@
 import React from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { Avatar } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { getMessages } from "../../api/messageApi";
@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 const ChatBody = ({ conversationId }) => {
   const PAGE_SIZE = 5;
   const userId = useSelector((state) => state.user.data.info?._id);
+  const queryClient = useQueryClient();
   const {
     data: dataMessages,
     error,
@@ -25,6 +26,11 @@ const ChatBody = ({ conversationId }) => {
       return lastPage.nextCursor;
     },
   });
+
+  queryClient.setQueryData(["messages"], (oldData) => {
+    // return [...oldData, newData]
+  });
+
   return (
     <Content className="overflow-y-auto overflow-hidden mx-6 pt-3">
       {dataMessages?.pages[0]?.data &&
