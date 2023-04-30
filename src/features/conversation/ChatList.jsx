@@ -19,11 +19,9 @@ const ChatList = () => {
         />
         <Space direction="vertical" size={16} className="my-6">
           <Space wrap size={16}>
-            <div>
-              <Avatar size="large" icon={<UserOutlined />}></Avatar>
-              <Badge status="success" />
-            </div>
-
+            <Badge dot={true} offset={[-1, 30]} status="success">
+              <Avatar size="large" icon={<UserOutlined />} />
+            </Badge>
             <Avatar size="large" icon={<UserOutlined />} />
             <Avatar size="large" icon={<UserOutlined />} />
             <Avatar size="large" icon={<UserOutlined />} />

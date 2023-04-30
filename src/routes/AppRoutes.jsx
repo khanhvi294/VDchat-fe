@@ -36,8 +36,8 @@ const router = createBrowserRouter([
             element: <ChatList />,
           },
           {
-            path: "/chat",
-            exact: true,
+            path: appRoutes.CHAT,
+
             element: <ChatList />,
           },
 
