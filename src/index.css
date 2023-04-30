@@ -38,3 +38,4 @@ div.ant-upload{
   width: 100% !important;
   height: 100% !important;
 }
+.ant-menu-inline-collapsed-tooltip { display: none; }
