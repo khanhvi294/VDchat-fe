@@ -59,14 +59,12 @@ const Sidebar = () => {
       label: <p onClick={showModal}>Profile</p>,
       key: "1",
       icon: <UserOutlined />,
-      title: "",
     },
     {
       label: <p onClick={handleLogout}>Log out</p>,
       key: "2",
       danger: true,
       icon: <LogoutOutlined />,
-      title: "",
     },
   ];
 

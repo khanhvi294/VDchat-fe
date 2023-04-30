@@ -21,7 +21,7 @@ const MainLayout = () => {
   //   });
   // }, []);
   return (
-    <Layout>
+    <Layout className="overflow-hidden">
       <Sidebar />
       <ChatSidebar>
         <Outlet />
