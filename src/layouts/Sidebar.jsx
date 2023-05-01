@@ -10,37 +10,14 @@ import Sider from "antd/es/layout/Sider";
 import MenuItem from "antd/es/menu/MenuItem";
 import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
-import { NavLink, useLocation, useNavigate } from "react-router-dom/dist";
+import { useLocation, useNavigate } from "react-router-dom/dist";
 import ProfileForm from "../features/profile/ProfileForm";
 import { logout } from "../redux/slices/userSlice";
 import { appRoutes } from "../routes/AppRoutes";
 
-const itemsNavbar = [
-  {
-    title: "Chat",
-    icon: <MessageOutlined />,
-    path: "/",
-  },
-  {
-    title: "Groups",
-    icon: <UsergroupAddOutlined />,
-    path: "/groups",
-  },
-  {
-    title: "Contacts",
-    icon: <ContactsOutlined />,
-    path: "/contacts",
-  },
-];
-
-const Sidebar = () => {
+const Sidebar = ({ itemsNavbar, keySelected, setKeySelected }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [keySelected, setKeySelected] = useState("0");
-  const { pathname } = useLocation();
-  useMemo(() => {
-    setKeySelected(pathname);
-  }, [pathname]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -91,7 +68,13 @@ const Sidebar = () => {
           </div>
           <Menu selectedKeys={[keySelected]}>
             {itemsNavbar.map((item) => (
-              <MenuItem key={item.path} icon={item.icon}>
+              <MenuItem
+                key={item.title}
+                icon={item.icon}
+                onClick={() => {
+                  setKeySelected(item.title);
+                }}
+              >
                 <Tooltip title={item.title} placement="right">
                   {/* <NavLink to={item.path} /> */}
                 </Tooltip>
