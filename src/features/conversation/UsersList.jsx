@@ -4,7 +4,7 @@ import formatDistanceStrict from "date-fns/formatDistanceStrict";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getConversations } from "../../api/conversationApi";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const { Text } = Typography;
 
@@ -12,7 +12,7 @@ const PAGE_SIZE = 9;
 
 const UsersList = () => {
   const [dataLoad, setDataLoad] = useState([]);
-  console.log(dataLoad);
+  const { conversationId } = useParams();
   const {
     data: dataConversations,
     error,
@@ -72,7 +72,15 @@ const UsersList = () => {
         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
         scrollableTarget="scrollableDiv"
       >
-        {console.log(dataLoad?.length, dataConversations?.pages[0]?.total)}
+        {/* <Menu selectedKeys={[keySelected]}>
+            {itemsNavbar.map((item) => (
+              <MenuItem key={item.path} icon={item.icon}>
+                <Tooltip title={item.title} placement="right">
+                  <NavLink to={item.path} />
+                </Tooltip>
+              </MenuItem>
+            ))}
+          </Menu> */}
         <List
           position="left"
           dataSource={dataLoad}
@@ -80,7 +88,9 @@ const UsersList = () => {
             <Link to={`/${item._id}`}>
               <List.Item
                 key={item?.name}
-                className="!border-b-0 !px-2 rounded-lg  hover:bg-slate-200 hover:cursor-pointer"
+                className={`!border-b-0 !px-2 rounded-lg hover:bg-slate-200 hover:cursor-pointer ${
+                  conversationId === item._id ? `bg-[#e2e8f0]` : ``
+                }`}
                 // onClick={() => console.log("object", item)}
               >
                 <List.Item.Meta
