@@ -6,6 +6,7 @@ import { getMessages } from "../../api/messageApi";
 import { useSelector } from "react-redux";
 
 const ChatBody = ({ conversationId }) => {
+  console.log(conversationId);
   const messagesEndRef = useRef(null);
   const PAGE_SIZE = 5;
   const userId = useSelector((state) => state.user.data.info?._id);

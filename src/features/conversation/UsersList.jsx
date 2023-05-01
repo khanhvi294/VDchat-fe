@@ -4,6 +4,7 @@ import formatDistanceStrict from "date-fns/formatDistanceStrict";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getConversations } from "../../api/conversationApi";
+import { Link } from "react-router-dom";
 
 const { Text } = Typography;
 
@@ -76,28 +77,29 @@ const UsersList = () => {
           position="left"
           dataSource={dataLoad}
           renderItem={(item) => (
-            <List.Item
-              key={item?.name}
-              className="!border-b-0 !px-2 rounded-lg  hover:bg-slate-200 hover:cursor-pointer"
-              onClick={() => console.log("object", item)}
-            >
-              <List.Item.Meta
-                avatar={<Avatar size="large" src="" />}
-                title={item?.name}
-                description={<Text ellipsis>{item?.lastMessage?.content}</Text>}
-                className="font-medium"
-              />
+            <Link to={`/${item._id}`}>
+              <List.Item
+                key={item?.name}
+                className="!border-b-0 !px-2 rounded-lg  hover:bg-slate-200 hover:cursor-pointer"
+                // onClick={() => console.log("object", item)}
+              >
+                <List.Item.Meta
+                  avatar={<Avatar size="large" src="" />}
+                  title={item?.name}
+                  description={
+                    <Text ellipsis>{item?.lastMessage?.content}</Text>
+                  }
+                  className="font-medium"
+                />
 
-              <div>
-                {formatDistanceStrict(
-                  new Date(item?.lastMessage?.createdAt),
-                  new Date()
-                )}
-                {/* {formatDistanceToNow(new Date(item?.lastMessage?.createdAt), {
-                  addSuffix: true,
-                })} */}
-              </div>
-            </List.Item>
+                <div>
+                  {formatDistanceStrict(
+                    new Date(item?.lastMessage?.createdAt),
+                    new Date()
+                  )}
+                </div>
+              </List.Item>
+            </Link>
           )}
         />
         {/* )} */}

@@ -7,6 +7,7 @@ import ChatSidebar from "./ChatSidebar";
 import Sider from "antd/es/layout/Sider";
 // import socket from "../configs/socketClient";
 import { useEffect } from "react";
+import ChatList from "../features/conversation/ChatList";
 
 const MainLayout = () => {
   // useEffect(() => {
@@ -24,9 +25,11 @@ const MainLayout = () => {
     <Layout className="overflow-hidden">
       <Sidebar />
       <ChatSidebar>
-        <Outlet />
+        <ChatList />
       </ChatSidebar>
-      <ChatMain />
+      <ChatMain>
+        <Outlet />
+      </ChatMain>
     </Layout>
   );
 };
