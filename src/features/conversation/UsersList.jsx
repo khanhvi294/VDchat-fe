@@ -24,7 +24,6 @@ const UsersList = () => {
   } = useInfiniteQuery({
     queryKey: ["conversations"],
     queryFn: ({ pageParam }) => {
-      console.log("object");
       return getConversations({ page: pageParam, limit: PAGE_SIZE });
     },
     getNextPageParam: (lastPage, pages) => {
@@ -72,15 +71,6 @@ const UsersList = () => {
         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
         scrollableTarget="scrollableDiv"
       >
-        {/* <Menu selectedKeys={[keySelected]}>
-            {itemsNavbar.map((item) => (
-              <MenuItem key={item.path} icon={item.icon}>
-                <Tooltip title={item.title} placement="right">
-                  <NavLink to={item.path} />
-                </Tooltip>
-              </MenuItem>
-            ))}
-          </Menu> */}
         <List
           position="left"
           dataSource={dataLoad}
@@ -88,10 +78,9 @@ const UsersList = () => {
             <Link to={`/${item._id}`}>
               <List.Item
                 key={item?.name}
-                className={`!border-b-0 !px-2 rounded-lg hover:bg-slate-200 hover:cursor-pointer ${
-                  conversationId === item._id ? `bg-[#e2e8f0]` : ``
+                className={`!border-b-0 !px-2 my-1 rounded-lg hover:bg-slate-200 hover:cursor-pointer ${
+                  conversationId === item._id ? `bg-[#e6ebf5]` : ``
                 }`}
-                // onClick={() => console.log("object", item)}
               >
                 <List.Item.Meta
                   avatar={<Avatar size="large" src="" />}
@@ -112,7 +101,6 @@ const UsersList = () => {
             </Link>
           )}
         />
-        {/* )} */}
       </InfiniteScroll>
     </div>
   );

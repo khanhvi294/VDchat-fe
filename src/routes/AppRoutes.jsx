@@ -34,31 +34,15 @@ const router = createBrowserRouter([
         // errorElement: <ErrorPage />,
         children: [
           {
-            path: "/",
+            path: appRoutes.CHAT,
             exact: true,
             element: <ChatBackground />,
           },
-          // {
-          //   path: appRoutes.CHAT,
-
-          //   element: <ChatMain />,
-          // },
-
           {
             path: appRoutes.CONVERSATION,
             exact: true,
             element: <ChatContainer />,
           },
-          // {
-          //   path: "/groups",
-          //   exact: true,
-          //   element: <GroupList />,
-          // },
-          // {
-          //   path: "/contacts",
-          //   excat: true,
-          //   element: <Contact />,
-          // },
         ],
       },
     ],

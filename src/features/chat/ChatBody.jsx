@@ -47,10 +47,7 @@ const ChatBody = ({ conversationId }) => {
           <div key={message._id}>
             {message?.senderId?._id === userId ? (
               <>
-                <div
-                  className="flex justify-end  mt-0.5 flex-1"
-                  // onClick={() => alert("sdfsdf")}
-                >
+                <div className="flex justify-end  mt-0.5 flex-1">
                   <div className=" rounded-xl bg-[#e6ebf5] w-fit px-4 py-1 break-all max-w-[55%]">
                     {message.content}
                   </div>

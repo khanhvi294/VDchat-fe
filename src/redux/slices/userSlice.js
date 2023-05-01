@@ -20,7 +20,6 @@ const userSlice = createSlice({
     },
     updateUserInfo: (state, action) => {
       state.data.info = { ...state.data.info, ...action.payload };
-      console.log(state.data.info);
     },
     setAccessToken: (state, action) => {
       state.data.accessToken = action.payload;

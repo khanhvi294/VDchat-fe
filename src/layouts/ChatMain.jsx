@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { Avatar, Badge, Dropdown, Input, Layout, Modal } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { blockUser, unblockUser } from "../api/userApi";
 import ChatHeader from "../features/chat/ChatHeader";
 import ChatBody from "../features/chat/ChatBody";
@@ -24,16 +24,7 @@ import ChatContainer from "../features/chat/ChatContainer";
 import ChatBackground from "../features/chat/ChatBackground";
 
 const ChatMain = ({ children }) => {
-  return (
-    <Layout className="bg-white h-screen">
-      {children}
-      {/* {conversationId ? (
-        <ChatContainer conversationId={conversationId} />
-      ) : (
-        <ChatBackground />
-      )} */}
-    </Layout>
-  );
+  return <Layout className="bg-white h-screen">{children}</Layout>;
 };
 
-export default ChatMain;
+export default memo(ChatMain);
