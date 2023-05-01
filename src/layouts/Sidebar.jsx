@@ -93,7 +93,7 @@ const Sidebar = () => {
             {itemsNavbar.map((item) => (
               <MenuItem key={item.path} icon={item.icon}>
                 <Tooltip title={item.title} placement="right">
-                  <NavLink to={item.path} />
+                  {/* <NavLink to={item.path} /> */}
                 </Tooltip>
               </MenuItem>
             ))}

@@ -4,6 +4,9 @@ import ChatList from "../features/conversation/ChatList";
 import Contact from "../features/contact/Contact";
 import MainLayout from "../layouts/MainLayout";
 import GroupList from "../features/group/GroupList";
+import ChatBackground from "../features/chat/ChatBackground";
+import ChatContainer from "../features/chat/ChatContainer";
+const ChatMain = lazy(() => import("../layouts/ChatMain"));
 const Page401 = lazy(() => import("../pages/Page401"));
 const LoginPage = lazy(() => import("../pages/LoginPage"));
 const Page404 = lazy(() => import("../pages/Page404"));
@@ -17,7 +20,7 @@ export const appRoutes = {
   AUTH: "/login",
   AUTH_REDIRECT: "/auth/redirect",
   PAGE_401: "/401",
-  CONVERSATION: "/chat/:conversationId",
+  CONVERSATION: "/:conversationId",
 };
 
 const publicRoutes = [];
@@ -33,29 +36,29 @@ const router = createBrowserRouter([
           {
             path: "/",
             exact: true,
-            element: <ChatList />,
+            element: <ChatBackground />,
           },
-          {
-            path: appRoutes.CHAT,
+          // {
+          //   path: appRoutes.CHAT,
 
-            element: <ChatList />,
-          },
+          //   element: <ChatMain />,
+          // },
 
           {
             path: appRoutes.CONVERSATION,
             exact: true,
-            element: <ChatList />,
+            element: <ChatContainer />,
           },
-          {
-            path: "/groups",
-            exact: true,
-            element: <GroupList />,
-          },
-          {
-            path: "/contacts",
-            excat: true,
-            element: <Contact />,
-          },
+          // {
+          //   path: "/groups",
+          //   exact: true,
+          //   element: <GroupList />,
+          // },
+          // {
+          //   path: "/contacts",
+          //   excat: true,
+          //   element: <Contact />,
+          // },
         ],
       },
     ],
