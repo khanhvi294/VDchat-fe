@@ -1,7 +1,7 @@
 const theme = {
   token: {
     fontSize: 16,
-    // các biến khác
+    // colorBgElevated: "#f5f7fb",
   },
 };
 
