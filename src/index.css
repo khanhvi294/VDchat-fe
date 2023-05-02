@@ -39,3 +39,6 @@ div.ant-upload{
   height: 100% !important;
 }
 .ant-menu-inline-collapsed-tooltip { display: none; }
+.ant-popover-inner {
+  box-shadow: none !important;
+}

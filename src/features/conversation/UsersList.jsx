@@ -54,12 +54,11 @@ const UsersList = () => {
 
   return (
     <div
-      id="scrollableDiv"
-      // className="flex-1"
-      style={{
-        overflow: "auto",
-        padding: "0 12px",
-      }}
+      className="overflow-y-auto flex-grow max-h-full"
+      // style={{
+      //   overflow: "auto",
+      //   padding: "0 12px",
+      // }}
     >
       <InfiniteScroll
         dataLength={
