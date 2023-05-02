@@ -5,6 +5,8 @@ import { Content } from "antd/es/layout/layout";
 import { getMessages } from "../../api/messageApi";
 import { useSelector } from "react-redux";
 import { FileOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router";
+import { appRoutes } from "../../routes/AppRoutes";
 
 const ChatBody = ({ conversationId }) => {
   const messagesEndRef = useRef(null);
@@ -12,6 +14,7 @@ const ChatBody = ({ conversationId }) => {
   const userId = useSelector((state) => state.user.data.info?._id);
   const socket = useSelector((state) => state.socket.data);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const {
     data: dataMessages,
     error,
@@ -29,6 +32,13 @@ const ChatBody = ({ conversationId }) => {
       return lastPage.nextCursor;
     },
   });
+
+  useEffect(() => {
+    if (error) {
+      console.log("error", error);
+      navigate(appRoutes.HOME);
+    }
+  }, [error]);
 
   useEffect(() => {
     // queryClient.invalidateQueries(["messages"], conversationId);
