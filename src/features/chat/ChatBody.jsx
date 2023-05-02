@@ -1,16 +1,20 @@
 import React, { useRef, useEffect } from "react";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
-import { Avatar } from "antd";
+import { Avatar, Image } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { getMessages } from "../../api/messageApi";
 import { useSelector } from "react-redux";
+import { FileOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router";
+import { appRoutes } from "../../routes/AppRoutes";
 
 const ChatBody = ({ conversationId }) => {
-  console.log(conversationId);
   const messagesEndRef = useRef(null);
   const PAGE_SIZE = 5;
   const userId = useSelector((state) => state.user.data.info?._id);
+  const socket = useSelector((state) => state.socket.data);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const {
     data: dataMessages,
     error,
@@ -20,7 +24,7 @@ const ChatBody = ({ conversationId }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["messages"],
+    queryKey: ["messages", conversationId],
     queryFn: ({ pageParam = 0 }) => {
       return getMessages({ conversationId, page: pageParam, limit: PAGE_SIZE });
     },
@@ -28,6 +32,25 @@ const ChatBody = ({ conversationId }) => {
       return lastPage.nextCursor;
     },
   });
+
+  useEffect(() => {
+    if (error) {
+      console.log("error", error);
+      navigate(appRoutes.HOME);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    // queryClient.invalidateQueries(["messages"], conversationId);
+    socket.emit("join-conversation", conversationId);
+    console.log(conversationId);
+  }, [conversationId]);
+
+  useEffect(() => {
+    socket.on("new-message", (data) => {
+      console.log("new mesage", data);
+    });
+  }, []);
 
   queryClient.setQueryData(["messages"], (oldData) => {
     // return [...oldData, newData]
@@ -55,7 +78,7 @@ const ChatBody = ({ conversationId }) => {
               </>
             ) : (
               <>
-                <div className="flex items-end">
+                <div className="flex items-end mt-0.5">
                   {index != dataMessages?.pages[0]?.data.length - 1 ? (
                     <>
                       {dataMessages?.pages[0]?.data[index + 1].senderId._id ===
@@ -63,20 +86,20 @@ const ChatBody = ({ conversationId }) => {
                         <Avatar
                           size=""
                           className="mr-2"
-                          src={message.senderId.avatar}
+                          src={message?.senderId.avatar}
                         />
                       ) : (
                         <div className="w-[32px] mr-2"></div>
                       )}
 
                       <div className="flex-1">
-                        <p className=" text-black font-medium ml-2 mb-1">
+                        <p className=" text-black font-medium ml-2 ">
                           {index === 0 && message.senderId.username}
 
                           {index > 0 &&
                             dataMessages?.pages[0]?.data[index - 1].senderId
                               ._id === userId &&
-                            message.senderId.username}
+                            message?.senderId.username}
                         </p>
                         <p className="w-fit px-4 py-1 bg-[#a49eed] rounded-xl break-all max-w-[55%]">
                           {message.content}
@@ -88,19 +111,19 @@ const ChatBody = ({ conversationId }) => {
                       <Avatar
                         size=""
                         className="mr-2"
-                        src={message.senderId.avatar}
+                        src={message?.senderId.avatar}
                       />
                       {/* <div className="w-[32px] mr-2"></div> */}
                       <div className="flex-1">
-                        {dataMessages?.pages[0]?.data[index - 1].senderId
+                        {dataMessages?.pages[0]?.data[index - 1]?.senderId
                           ._id === userId && (
-                          <p className=" text-black font-medium ml-2 mb-1">
-                            {message.senderId.username}
+                          <p className=" text-black font-medium ml-2 ">
+                            {message?.senderId.username}
                           </p>
                         )}
 
                         <p className="w-fit px-4 py-1 bg-[#a49eed] rounded-xl break-all max-w-[55%]">
-                          {message.content}
+                          {message?.content}
                         </p>
                       </div>
                     </>
@@ -109,7 +132,21 @@ const ChatBody = ({ conversationId }) => {
               </>
             )}
           </div>
-        ))}
+        ))}{" "}
+      {/* <div className="flex justify-end  mt-0.5 flex-1">
+        <div className="rounded-xl h-30 w-fit bg-[#f1f1f1] max-w-[55%] flex break-all items-center justify-center p-2">
+          <FileOutlined className="text-black text-[40px]" />
+          <p className="text-black ml-2 font-bold truncate">fsdfsdfwe.pdf</p>
+        </div>
+      </div>
+      <div className="flex justify-end mt-3 flex-1">
+        <div className="rounded-xl w-fit break-all max-w-[55%]">
+          <Image
+            width={100}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          />
+        </div>
+      </div> */}
       {/* <div className="flex items-end mt-2">
     <div className="w-[32px] mr-2"></div>
     <div className="flex-1">
@@ -144,7 +181,6 @@ const ChatBody = ({ conversationId }) => {
       </div>
     </div>
   </div> */}
-
       <div ref={messagesEndRef} />
     </Content>
   );

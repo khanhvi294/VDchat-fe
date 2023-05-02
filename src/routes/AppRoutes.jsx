@@ -16,7 +16,7 @@ const ProtectedPage = lazy(() => import("../routes/ProtectedRoutes"));
 const PublicRoutes = lazy(() => import("../routes/PublicRoutes"));
 
 export const appRoutes = {
-  CHAT: "/",
+  HOME: "/",
   AUTH: "/login",
   AUTH_REDIRECT: "/auth/redirect",
   PAGE_401: "/401",
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
         // errorElement: <ErrorPage />,
         children: [
           {
-            path: appRoutes.CHAT,
+            path: appRoutes.HOME,
             exact: true,
             element: <ChatBackground />,
           },
