@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getConversations } from "../../api/conversationApi";
 import { Link, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const { Text } = Typography;
 
@@ -13,6 +14,8 @@ const PAGE_SIZE = 9;
 const UsersList = () => {
   const [dataLoad, setDataLoad] = useState([]);
   const { conversationId } = useParams();
+  const socket = useSelector((state) => state.socket.data);
+
   const {
     data: dataConversations,
     error,
@@ -42,6 +45,13 @@ const UsersList = () => {
       setDataLoad(result);
     }
   }, [dataConversations]);
+
+  useEffect(() => {
+    socket.on("message-received", (data) => {
+      console.log("received message", data);
+    });
+  }, []);
+
   return (
     <div
       id="scrollableDiv"

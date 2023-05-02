@@ -36,6 +36,12 @@ const ChatBody = ({ conversationId }) => {
     console.log(conversationId);
   }, [conversationId]);
 
+  useEffect(() => {
+    socket.on("new-message", (data) => {
+      console.log("new mesage", data);
+    });
+  }, []);
+
   queryClient.setQueryData(["messages"], (oldData) => {
     // return [...oldData, newData]
   });
