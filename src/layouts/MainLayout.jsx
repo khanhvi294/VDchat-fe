@@ -1,32 +1,55 @@
 import { Layout } from "antd";
 import { Outlet } from "react-router-dom";
 import ChatMain from "./ChatMain";
-import Sidebar from "./Sidebar";
-import StickyBox from "react-sticky-box";
 import ChatSidebar from "./ChatSidebar";
-import Sider from "antd/es/layout/Sider";
+import Sidebar from "./Sidebar";
 // import socket from "../configs/socketClient";
-import { useEffect } from "react";
+import {
+  ContactsOutlined,
+  MessageOutlined,
+  UsergroupAddOutlined,
+} from "@ant-design/icons";
+import { useMemo, useState } from "react";
+import ChatList from "../features/conversation/ChatList";
+import GroupList from "../features/group/GroupList";
 
 const MainLayout = () => {
-  // useEffect(() => {
-  //   socket.emit("join", "memay");
-  //   console.log("fsdflsdkj");
-  //   socket.on("connect", () => {
-  //     console.log("sockett ", socket.id); // true
-  //   });
-  //   socket.emit("hahah", "dcm");
-  //   socket.on("hello", (data) => {
-  //     console.log("fsdfsdf ", data);
-  //   });
-  // }, []);
+  const itemsNavbar = [
+    {
+      title: "Chat",
+      icon: <MessageOutlined />,
+      component: <ChatList />,
+    },
+    {
+      title: "Groups",
+      icon: <UsergroupAddOutlined />,
+      component: <GroupList />,
+    },
+    {
+      title: "Contacts",
+      icon: <ContactsOutlined />,
+      component: "/contacts",
+    },
+  ];
+  const [keySelected, setKeySelected] = useState(itemsNavbar[0].title);
+  const childComponent = useMemo(() => {
+    switch (keySelected) {
+      case itemsNavbar[0].title:
+        return itemsNavbar[0].component;
+      case itemsNavbar[1].title:
+        return itemsNavbar[1].component;
+    }
+  }, [keySelected]);
+  const children = useMemo(() => <Outlet />, []);
   return (
-    <Layout>
-      <Sidebar />
-      <ChatSidebar>
-        <Outlet />
-      </ChatSidebar>
-      <ChatMain />
+    <Layout className="overflow-hidden">
+      <Sidebar
+        itemsNavbar={itemsNavbar}
+        keySelected={keySelected}
+        setKeySelected={setKeySelected}
+      />
+      <ChatSidebar>{childComponent}</ChatSidebar>
+      <ChatMain>{children}</ChatMain>
     </Layout>
   );
 };

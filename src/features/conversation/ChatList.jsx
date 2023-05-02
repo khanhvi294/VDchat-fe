@@ -1,7 +1,6 @@
-import { Header } from "antd/es/layout/layout";
+import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Badge, Input, Space, Typography } from "antd";
 import React from "react";
-import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import UsersList from "./UsersList";
 
 const { Title } = Typography;
@@ -19,12 +18,12 @@ const ChatList = () => {
         />
         <Space direction="vertical" size={16} className="my-6">
           <Space wrap size={16}>
-            <div>
-              <Avatar size="large" icon={<UserOutlined />}></Avatar>
-              <Badge status="success" />
-            </div>
-
-            <Avatar size="large" icon={<UserOutlined />} />
+            <Badge dot={true} offset={[-1, 30]} status="success" size="default">
+              <Avatar size="large" icon={<UserOutlined />} />
+            </Badge>
+            <Badge dot={true} offset={[-1, 30]} status="success" size="default">
+              <Avatar size="large" icon={<UserOutlined />} />
+            </Badge>
             <Avatar size="large" icon={<UserOutlined />} />
             <Avatar size="large" icon={<UserOutlined />} />
           </Space>

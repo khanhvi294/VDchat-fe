@@ -1,3 +1,4 @@
+import React, { useEffect, useRef, useState } from "react";
 import {
   FileImageOutlined,
   SmileOutlined,
@@ -8,7 +9,6 @@ import {
   CloseOutlined,
   SendOutlined,
 } from "@ant-design/icons";
-import React, { useState } from "react";
 import { Button, Image, Upload } from "antd";
 import PreviewFileList from "../../component/PreviewFilesList";
 import { Input } from "antd";
@@ -17,10 +17,52 @@ import { createMessage } from "../../api/messageApi";
 import { useMutation } from "@tanstack/react-query";
 import createUrlImage from "../../utils/createUrlImg";
 
-const ChatFooter = () => {
-  const [filesList, setFilesList] = useState([]);
+import EmojiPicker from "emoji-picker-react";
 
-  const createMessageMutation = useMutation(createMessage, {});
+const ChatFooter = ({ conversationId }) => {
+  const [inputChat, setInputChat] = useState("");
+  const [displayEmoji, setDisplayEmoji] = useState(false);
+  const [cursorPosition, setCursorPosition] = useState(0);
+  const inputElement = useRef();
+  const emojiPickerRef = useRef();
+  console.log(inputChat);
+  const pickerEmoji = (emoji) => {
+    inputElement.current.input.focus();
+    let message =
+      inputChat.substring(0, inputElement.current.input.selectionStart) +
+      emoji +
+      inputChat.substring(inputElement.current.input.selectionStart);
+    setInputChat(message);
+    setCursorPosition(inputElement.current.input.selectionStart + emoji.length);
+  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(event.target)
+      ) {
+        setDisplayEmoji(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [emojiPickerRef]);
+
+  useEffect(() => {
+    inputElement.current.input.selectionEnd = cursorPosition;
+    inputElement.current.input.focus();
+  }, [cursorPosition]);
+
+  const createMessageMutation = useMutation({
+    mutationFn: createMessage,
+  });
+  const [imgList, setImgList] = useState([]);
+
+  const [filesList, setFilesList] = useState([]);
 
   const handleRemoveFileChosen = (indexFile) => {
     setFilesList((prev) => prev.filter((file) => file.key !== indexFile));
@@ -103,16 +145,51 @@ const ChatFooter = () => {
             bordered={false}
             placeholder="Message"
             className="rounded-b-xl bg-[#e6ebf5] hover:bg-[#e6ebf5] focus:bg-[#e6ebf5] text-black "
+            value={inputChat}
+            onChange={(e) => {
+              setInputChat(e.target.value);
+            }}
+            ref={inputElement}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                const message = {
+                  content: e.target.value,
+                  conversationId: conversationId,
+                };
+                setInputChat("");
+                createMessageMutation.mutate(message);
+              }
+            }}
           />
           <div className="flex items-center justify-around mx-3 gap-3">
             <Button
               type="text"
               icon={
-                <SendOutlined className="hover:cursor-pointer text-[22px] text-[#a49eed]" />
+                <SendOutlined className="relative -top-[5px] hover:cursor-pointer text-[22px] text-[#a49eed]" />
               }
               onClick={handleSubmitInput}
             />
-            <SmileOutlined className="hover:cursor-pointer text-[22px] text-[#a49eed]" />
+            <div className="relative" ref={emojiPickerRef}>
+              <div
+                onClick={() => {
+                  inputElement.current.input.focus();
+                  setDisplayEmoji((prev) => !prev);
+                }}
+              >
+                <SmileOutlined className="cursor:cursor-pointer text-[22px] text-[#a49eed]" />
+              </div>
+              {displayEmoji && (
+                <div className="absolute bottom-10 right-0 drop-shadow-xl">
+                  <EmojiPicker
+                    native
+                    onEmojiClick={(emoji) => pickerEmoji(emoji.emoji)}
+                    emojiStyle="native"
+                    autoFocusSearch={false}
+                  />
+                </div>
+              )}
+            </div>
+
             <div className="">
               <label htmlFor="file-input" className="hover:cursor-pointer">
                 <LinkOutlined className="hover:cursor-pointer text-[22px] text-[#a49eed]" />
@@ -132,21 +209,33 @@ const ChatFooter = () => {
               // fileList={fileList}
               onChange={handleChangeFileList}
             >
+          <div className="flex justify-around mx-3 gap-3">
+            <div className="relative" ref={emojiPickerRef}>
+              <div
+                onClick={() => {
+                  inputElement.current.input.focus();
+                  setDisplayEmoji((prev) => !prev);
+                }}
+              >
+                <SmileOutlined style={{ fontSize: "22px", color: "#a49eed" }} />
+              </div>
+              {displayEmoji && (
+                <div className="absolute bottom-10 right-0 drop-shadow-xl">
+                  <EmojiPicker
+                    native
+                    onEmojiClick={(emoji) => pickerEmoji(emoji.emoji)}
+                    emojiStyle="native"
+                    autoFocusSearch={false}
+                  />
+                </div>
+              )}
+            </div>
+            <Upload {...propUpload}>
               <LinkOutlined style={{ fontSize: "22px", color: "#a49eed" }} />
             </Upload> */}
           </div>
         </div>
       </div>
-
-      {/* <Input
-        size="large"
-        placeholder="Message"
-        className="rounded-2xl bg-[#e6ebf5] text-black hover:border-[#a49eed]"
-      />
-      <div className="flex justify-around w-24">
-        <SmileOutlined style={{ fontSize: "22px", color: "#a49eed" }} />
-        <FileImageOutlined style={{ fontSize: "22px", color: "#a49eed" }} />
-      </div> */}
     </Footer>
   );
 };

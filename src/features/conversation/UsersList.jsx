@@ -4,6 +4,7 @@ import formatDistanceStrict from "date-fns/formatDistanceStrict";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getConversations } from "../../api/conversationApi";
+import { Link, useParams } from "react-router-dom";
 
 const { Text } = Typography;
 
@@ -11,7 +12,7 @@ const PAGE_SIZE = 9;
 
 const UsersList = () => {
   const [dataLoad, setDataLoad] = useState([]);
-  console.log(dataLoad);
+  const { conversationId } = useParams();
   const {
     data: dataConversations,
     error,
@@ -23,7 +24,6 @@ const UsersList = () => {
   } = useInfiniteQuery({
     queryKey: ["conversations"],
     queryFn: ({ pageParam }) => {
-      console.log("object");
       return getConversations({ page: pageParam, limit: PAGE_SIZE });
     },
     getNextPageParam: (lastPage, pages) => {
@@ -33,7 +33,6 @@ const UsersList = () => {
       return undefined;
     },
   });
-  console.log("conv", dataConversations);
   useEffect(() => {
     if (dataConversations?.pages?.length) {
       const result = dataConversations?.pages.reduce(
@@ -72,36 +71,36 @@ const UsersList = () => {
         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
         scrollableTarget="scrollableDiv"
       >
-        {console.log(dataLoad?.length, dataConversations?.pages[0]?.total)}
         <List
           position="left"
           dataSource={dataLoad}
           renderItem={(item) => (
-            <List.Item
-              key={item?.name}
-              className="!border-b-0 !px-2 rounded-lg  hover:bg-slate-200 hover:cursor-pointer"
-              onClick={() => console.log("object", item)}
-            >
-              <List.Item.Meta
-                avatar={<Avatar size="large" src="" />}
-                title={item?.name}
-                description={<Text ellipsis>{item?.lastMessage?.content}</Text>}
-                className="font-medium"
-              />
+            <Link to={`/${item._id}`}>
+              <List.Item
+                key={item?.name}
+                className={`!border-b-0 !px-2 my-1 rounded-lg hover:bg-slate-200 hover:cursor-pointer ${
+                  conversationId === item._id ? `bg-[#e6ebf5]` : ``
+                }`}
+              >
+                <List.Item.Meta
+                  avatar={<Avatar size="large" src="" />}
+                  title={item?.name}
+                  description={
+                    <Text ellipsis>{item?.lastMessage?.content}</Text>
+                  }
+                  className="font-medium"
+                />
 
-              <div>
-                {formatDistanceStrict(
-                  new Date(item?.lastMessage?.createdAt),
-                  new Date()
-                )}
-                {/* {formatDistanceToNow(new Date(item?.lastMessage?.createdAt), {
-                  addSuffix: true,
-                })} */}
-              </div>
-            </List.Item>
+                <div>
+                  {formatDistanceStrict(
+                    new Date(item?.lastMessage?.createdAt),
+                    new Date()
+                  )}
+                </div>
+              </List.Item>
+            </Link>
           )}
         />
-        {/* )} */}
       </InfiniteScroll>
     </div>
   );
