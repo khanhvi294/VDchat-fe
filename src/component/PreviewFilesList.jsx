@@ -2,18 +2,18 @@ import React from "react";
 import { Button, Image } from "antd";
 import { FileOutlined, CloseOutlined } from "@ant-design/icons";
 
-const PreviewFilesList = ({ fileList, handleRemoveFileChosen }) => {
+const PreviewFilesList = ({ filesList, handleRemoveFileChosen }) => {
   return (
     <>
-      {fileList.length > 0 && (
+      {filesList.length > 0 && (
         <div className="flex-1 w-full p-2 rounded-xl flex">
           <div className="flex flex-1 gap-3 overflow-x-scroll">
-            {fileList.length &&
-              fileList?.map((file) => (
+            {filesList.length &&
+              filesList?.map((file) => (
                 <div className="relative" key={file.key}>
                   <Button
                     shape="circle"
-                    className=" absolute z-10 top-0 -right-2 bg-slate-700 flex items-center justify-center "
+                    className=" absolute z-10 top-0 -right-2 bg-slate-500 flex items-center justify-center "
                     icon={<CloseOutlined />}
                     size={"small"}
                     onClick={() => handleRemoveFileChosen(file.key)}
