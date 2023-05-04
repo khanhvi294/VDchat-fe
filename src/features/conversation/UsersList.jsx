@@ -12,6 +12,7 @@ const { Text } = Typography;
 const PAGE_SIZE = 9;
 
 const UsersList = () => {
+  console.log("render");
   const [dataLoad, setDataLoad] = useState([]);
   const { conversationId } = useParams();
   const socket = useSelector((state) => state.socket.data);
@@ -27,6 +28,7 @@ const UsersList = () => {
   } = useInfiniteQuery({
     queryKey: ["conversations"],
     queryFn: ({ pageParam }) => {
+      console.log("page", pageParam);
       return getConversations({ page: pageParam, limit: PAGE_SIZE });
     },
     getNextPageParam: (lastPage, pages) => {
@@ -47,14 +49,13 @@ const UsersList = () => {
   }, [dataConversations]);
 
   useEffect(() => {
-    socket.on("message-received", (data) => {
-      console.log("received message", data);
-    });
+    socket.on("message-received", (data) => {});
   }, []);
 
   return (
     <div
       className="overflow-y-auto flex-grow max-h-full"
+      id="scrollableDiv"
       // style={{
       //   overflow: "auto",
       //   padding: "0 12px",
@@ -92,7 +93,7 @@ const UsersList = () => {
                 }`}
               >
                 <List.Item.Meta
-                  avatar={<Avatar size="large" src="" />}
+                  avatar={<Avatar size="large" />}
                   title={item?.name}
                   description={
                     <Text ellipsis>{item?.lastMessage?.content}</Text>
