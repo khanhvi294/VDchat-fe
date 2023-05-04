@@ -3,16 +3,24 @@ import {
   SearchOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Avatar, Badge, Input, Modal, Popover, Space, Typography } from "antd";
-import React, { useEffect, useRef, useState } from "react";
-import UsersList from "./UsersList";
+import { Avatar, Badge, Input, Space, Typography } from "antd";
+import React, { useRef, useState } from "react";
 import ListContact from "../contact/ListContact";
+import UsersList from "./UsersList";
 
 const { Title } = Typography;
 const ChatList = () => {
   const [isSearch, setIsSearch] = useState(false);
-
+  const [inputSearch, setInputSearch] = useState("");
   const modalSearch = useRef();
+  const handleClickBack = () => {
+    modalSearch.current.classList.remove("animate-fade-in");
+    modalSearch.current.classList.add("animate-fade-out");
+    setTimeout(() => {
+      setIsSearch(false);
+    }, 100);
+    setInputSearch("");
+  };
 
   return (
     <div className="w-full h-full !bg-[#f5f7fb] flex flex-col">
@@ -21,23 +29,17 @@ const ChatList = () => {
           Chats
         </Title>
         <div className="flex items-center">
-          {isSearch && (
-            <ArrowLeftOutlined
-              onClick={() => {
-                modalSearch.current.classList.remove("animate-fade-in");
-                modalSearch.current.classList.add("animate-fade-out");
-                setTimeout(() => {
-                  setIsSearch(false);
-                }, 100);
-              }}
-            />
-          )}
+          {isSearch && <ArrowLeftOutlined onClick={handleClickBack} />}
           <Input
             size="large"
             placeholder="Search user"
+            value={inputSearch}
             prefix={<SearchOutlined />}
             onFocus={() => {
               setIsSearch(true);
+            }}
+            onChange={(e) => {
+              setInputSearch(e.target.value);
             }}
             className={`${isSearch ? "w-[290px] " : ""} ml-auto`}
           />
@@ -52,7 +54,7 @@ const ChatList = () => {
               isSearch ? "animate-fade-in" : "animate-fade-out"
             }`}
           >
-            <ListContact />
+            {inputSearch && <ListContact searchValue={inputSearch} />}
           </div>
         )}
         <Space direction="vertical" size={16} className="my-6">

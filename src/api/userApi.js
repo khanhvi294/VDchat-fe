@@ -13,6 +13,15 @@ const userApi = {
   unblockUser: (userId) => {
     return axiosClientPrivate.patch(url + `/unblock/${userId}`);
   },
+  findUsersAndConversations: (name) => {
+    return axiosClientPrivate.get(url + `/find/${name}`);
+  },
 };
 
-export const { getUserInfo, updateInfo, blockUser, unblockUser } = userApi;
+export const {
+  getUserInfo,
+  updateInfo,
+  blockUser,
+  unblockUser,
+  findUsersAndConversations,
+} = userApi;
